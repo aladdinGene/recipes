@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Recipes</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+        {% block css %}{% endblock %}
+    </head>
+    <body>
+        <header class="header_area">
+            <div class="sub_header">
+                <div class="container">
+                    <div class="row align-items-center position-relative">
+                        <div class="col-md-4 col-lg-6">
+                            <div id="logo">
+                                <a href="/">
+                                    <h2>Recipes</span></h2>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-6 d-none d-lg-block">
+                            <div class="sub_header_social_icon float-end">
+                                {% if user.is_authenticated %}
+                                    <a href="/logout" class="register_icon"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                                {% else %}
+                                    <a href="/login" class="register_icon"><i class="fas fa-sign-in-alt"></i>Login</a>
+                                {% endif %}
+                                <a href="/signup" class="register_icon"><i class="fas fa-user-plus"></i>Sign-Up</a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="header_social_icon d-block d-lg-none">
+                                <ul>
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li>
+                                        <a href="#"> <i class="fab fa-twitter"></i></a>
+                                    </li>
+                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <nav class="navbar navbar-expand-lg navbar-light">
+                                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="navbar-collapse collapse" id="navbarSupportedContent" style="">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link {% if not category %} active {% endif %}" href="/">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="/Breakfast" class="nav-link {% if category == 'Breakfast' %} active {% endif %}">Breakfast</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="/Lunch" class="nav-link {% if category == 'Lunch' %} active {% endif %}">Lunch</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="/Dinner" class="nav-link {% if category == 'Dinner' %} active {% endif %}">Dinner</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="/Beverages" class="nav-link {% if category == 'Beverages' %} active {% endif %}">Beverages</a>
+                                        </li>
+                                        {% if user.is_authenticated %}
+                                            <li class="nav-item">
+                                                <a href="/my-recipes" class="nav-link {% if category == 'My Recipes' %} active {% endif %}">My Recipes</a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">Contact Us</a>
+                                        </li>
+                                        <li class="nav-item d-lg-none">
+                                            {% if user.is_authenticated %}
+                                                <a href="/logout" class="nav-link">Logout</a>
+                                            {% else %}
+                                                <a href="/login" class="nav-link">Login</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item d-lg-none">
+                                            <a href="./signup.html" class="nav-link">Sign-Up</a>
+                                        </li>
+                                    </ul>
+                                    <div class="header_social_icon d-none d-lg-block">
+                                        <ul>
+                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li>
+                                                <a href="#"> <i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Recipes</p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="footer-links">
+                            <a href="/">Home</a>
+                            <a href="/Breakfast">Breakfast</a>
+                            <a href="/Lunch">Lunch</a>
+                            <a href="/Dinner">Dinner</a>
+                            <a href="/Beverages">Beverages</a>
+                            <a href="#">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"> <i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <span class="float-end">&copy;&nbsp;2021.7.10 Recipes</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'assets/js/tata.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/app.js' %}"></script>
+        {% block script %}{% endblock %}
+    </body>
+</html>

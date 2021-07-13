@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block content %}
+        {% csrf_token %}
+        <div class="main-wrapper container">
+            {% if not category %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    {% if user.is_authenticated %}
+                                        <div class="col-lg-3 col-xl-2">
+                                            <a href="/add-recipe" class="btn btn-primary mb-3 mb-lg-0"><i class='bx bxs-plus-square'></i>New Recipe</a>
+                                        </div>
+                                        <div class="col-lg-9 col-xl-10">
+                                    {% endif %}
+                                            <form class="float-lg-end" action="/search" method="GET">
+                                                <div class="row row-cols-lg-auto g-2">
+                                                    <div class="col-12">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control ps-5" placeholder="Search Recipe..." name="title" required> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="position-relative">
+                                                            <select class="form-select ps-5" aria-label="Select Category..." name="category">
+                                                                <option selected value="All">All</option>
+                                                                <option value="Breakfast">Breakfast</option>
+                                                                <option value="Lunch">Lunch</option>
+                                                                <option value="Dinner">Dinner</option>
+                                                                <option value="Beverages">Beverages</option>
+                                                            </select>
+                                                            <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bxs-category"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="position-relative">
+                                                            <button class="btn btn-primary mb-3 mb-lg-0" type="submit"><i class='bx bx-search'></i>Search</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                    {% if user.is_authenticated %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 recipe-grid">
+                {% for recipe in recipes %}
+                    <div class="col" data-slug="{{ recipe.slug }}">
+                        <div class="card" href="#">
+                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <a href="/detail/{{ recipe.slug }}"><h6 class="card-title cursor-pointer">{{ recipe.title }}</h6></a>
+                                <div class="clearfix">
+                                    <p class="mb-0 float-start">{{ recipe.category }}</p>
+                                    {% if user.is_authenticated and user.is_superuser and not category %}
+                                        <p class="mb-0 float-end"><a href="/edit/{{ recipe.slug }}"><i class="fas fa-edit"></i></a> | <i class="fas fa-trash delete-recipe-btn" data-slug="{{ recipe.slug }}" data-bs-toggle="modal" data-bs-target="#confirmModal" role="button"></i></p>
+                                    {% elif category == 'My Recipes' %}
+                                        <p class="mb-0 float-end"><a href="/edit/{{ recipe.slug }}"><i class="fas fa-edit"></i></a> | <i class="fas fa-trash delete-recipe-btn" data-slug="{{ recipe.slug }}" data-bs-toggle="modal" data-bs-target="#confirmModal" role="button"></i></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"> </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body"><h2 class="text-center">Do you want to delete really?</h2></div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary" id="delete-confirm-btn" data-bs-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

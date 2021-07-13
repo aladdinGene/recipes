@@ -1,0 +1,149 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css' %}">
+        <link href="{% static 'assets/plugins/input-tags/css/tagsinput.css' %}" rel="stylesheet" />
+{% endblock %}
+    
+
+{% block content %}
+        <div class="main-wrapper container">
+            <h5 class="card-title">Add New Recipe</h5>
+            <hr/>
+            <div class="form-body mt-4 mb-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="border border-3 p-4 rounded">
+                            <div class="mb-3">
+                                <label for="recipe_title" class="form-label">Recipe Title</label>
+                                {% if recipe_detail %}
+                                    <input type="text" class="form-control" id="recipe_title" placeholder="Recipe Title" value="{{ recipe_detail.title }}">
+                                {% else %}
+                                    <input type="text" class="form-control" id="recipe_title" placeholder="Recipe Title">
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipe_category" class="form-label">Recipe Category</label>
+                            	<select class="form-select mb-3" aria-label="Default select example" id="recipe_category">
+                                    {% for category in categories %}
+                                        {% if recipe_detail %}
+                                            {% if category == recipe_detail.category %}
+                                                <option value="{{ category }}" selected>{{ category }}</option>
+                                            {% else %}
+                                                <option value="{{ category }}">{{ category }}</option>
+                                            {% endif %}
+                                        {% else %}
+                                            <option value="{{ category }}">{{ category }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                            	<label for="recipe_description" class="form-label">Recipe Description</label>
+                                {% if recipe_detail %}
+                                    <textarea class="form-control" id="recipe_description" placeholder="Recipe Description..." rows="3" value="">{{ recipe_detail.description }}</textarea>
+                                {% else %}
+                                    <textarea class="form-control" id="recipe_description" placeholder="Recipe Description..." rows="3"></textarea>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipe_ingredients" class="form-label">Ingredients</label>
+                                <select multiple data-role="tagsinput" placeholder="Recipe Ingredients..." id="recipe_ingredients"></select>
+                            </div>
+                            <div>
+                                <label for="recipe_method" class="form-label">Method</label>
+                                {% if recipe_detail %}
+                                    <textarea name="mytextarea" placeholder="Recipe Method..." id="recipe_method">{{ recipe_detail.method }}</textarea>
+                                {% else %}
+                                    <textarea name="mytextarea" placeholder="Recipe Method..." id="recipe_method"></textarea>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-5 mt-lg-0">
+                        <div class="border border-3 p-4 rounded">
+                            <div class="mb-3">
+                                <label for="recipe_prepare_time" class="form-label">Preparation time</label>
+                                <select class="form-select mb-3" aria-label="Default select example" id="recipe_prepare_time" >
+                                    {% for cook_time in cook_times %}
+                                        {% if recipe_detail %}
+                                            {% if cook_time == recipe_detail.prepare_time %}
+                                                <option value="{{ cook_time }}" selected>{{ cook_time }}</option>
+                                            {% else %}
+                                                <option value="{{ cook_time }}">{{ cook_time }}</option>
+                                            {% endif %}
+                                        {% else %}
+                                            <option value="{{ cook_time }}">{{ cook_time }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipe_cook_time" class="form-label">Cooking time</label>
+                            	<select class="form-select mb-3" aria-label="Default select example" id="recipe_cook_time">
+                                    {% for cook_time in cook_times %}
+                                        {% if recipe_detail %}
+                                            {% if cook_time == recipe_detail.cook_time %}
+                                                <option value="{{ cook_time }}" selected>{{ cook_time }}</option>
+                                            {% else %}
+                                                <option value="{{ cook_time }}">{{ cook_time }}</option>
+                                            {% endif %}
+                                        {% else %}
+                                            <option value="{{ cook_time }}">{{ cook_time }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3" id="input-file-wrap">
+                                <label for="recipe_image" class="form-label">Recipe Images</label>
+                                <input id="recipe_image" type="file" accept="image/*" filenone="true" >
+                            </div>
+                            <div>
+                                {% if recipe_detail %}
+                                    <button class="btn btn-primary btn-block" id="edit-recipe-btn">Edit Recipe</button>
+                                {% else %}
+                                    <button class="btn btn-primary btn-block" id="add-recipe-btn">Add New Recipe</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end row-->
+            </div>
+        </div>
+{% endblock %}
+
+{% block script %}
+        <script type="text/javascript" src="{% static 'assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/input-tags/js/tagsinput.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/app.js' %}"></script>
+        <script src="{% static 'assets/js/tinymce.min.js' %}"></script>
+        <script>
+            var csrf_token = "{{ csrf_token }}";
+            $(document).ready(function () {
+            	$('#recipe_image').imageuploadify();
+            })
+            tinymce.init({
+				selector: '#recipe_method',
+				height: 400
+			});
+            {% if recipe_detail %}
+                var recipe_ingredients = JSON.parse('{% autoescape off %}{{ recipe_detail.ingredients }}{% endautoescape %}')
+                // $('#recipe_ingredients').tagsinput('add', recipe_ingredients)
+                $('#recipe_ingredients').tagsinput();
+                recipe_ingredients.map((ingredient) => {
+                    $('#recipe_ingredients').tagsinput('add', ingredient)
+                })
+                {% if not recipe_detail.image.url == '/media/images/default.png' %}
+                    var image_container = $('<div />').addClass('imageuploadify-container').css('margin-left', '15px')
+                    var image_html = '<button type="button" class="btn btn-danger bx bx-x" onClick="this.parentElement.remove()"></button><div class="imageuploadify-details" style="opacity: 0;"><span>hollandaisesauce_1309_16x9.jpg</span><span>image/jpeg</span><span>19867</span></div><img src="' + '{{ recipe_detail.image.url }}' + '">'
+                    image_container.html(image_html)
+                    setTimeout(() => {
+                        $('.imageuploadify-images-list').append(image_container)
+                    }, 500)
+                {% endif %}
+            {% endif %}
+        </script>
+        <script src="{% static 'assets/js/add_recipe.js' %}"></script>
+{% endblock %}
