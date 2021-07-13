@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '192.168.111.132']
 
+MIDDLEWARE_CLASSES = (
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+)
 
 # Application definition
 
@@ -73,7 +76,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'recipes.wsgi.application'
 
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
