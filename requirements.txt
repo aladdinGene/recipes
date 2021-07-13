@@ -1,4 +1,5 @@
 django
+gunicorn
 Pillow
 django-heroku
 whitenoise
