@@ -11,7 +11,7 @@ class AddRecipeView(View):
     template_name = 'add-new.html'
 
     def get(self, request):
-        cook_times = ["Less than 30 mins", "30 mins to 1 hour", "1-2 hours", "2-3 hours", "More than 3 hours"]
+        cook_times = ["no cooking required", "Less than 10 mins", "10-30 mins", "Less than 30 mins", "30 mins to 1 hour", "1-2 hours", "2-3 hours", "More than 3 hours"]
         categories = ["Breakfast", "Lunch", "Dinner", "Beverages"]
 
         if request.user.is_authenticated:

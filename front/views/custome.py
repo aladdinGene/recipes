@@ -4,13 +4,15 @@ from django.contrib.auth.decorators import login_required
 from front.models import Recipe
 from django.http import JsonResponse
 from django.http import QueryDict
+from PIL import Image
+import os.path
 
 class EditView(View):
     template_name = 'add-new.html'
 
     def get(self, request, slug):
         recipe_detail = get_object_or_404(Recipe, slug = slug)
-        cook_times = ["Less than 30 mins", "30 mins to 1 hour", "1-2 hours", "2-3 hours", "More than 3 hours"]
+        cook_times = ["no cooking required", "Less than 10 mins", "10-30 mins", "Less than 30 mins", "30 mins to 1 hour", "1-2 hours", "2-3 hours", "More than 3 hours"]
         categories = ["Breakfast", "Lunch", "Dinner", "Beverages"]
 
         if request.user.is_authenticated:
@@ -21,6 +23,7 @@ class EditView(View):
     def post(self, request):
         if request.user.is_authenticated:
             try:
+                current_user = request.user
                 post_value = request.POST
                 recipe = Recipe.objects.filter(slug=post_value['slug'])[0]
                 if request.FILES and request.FILES['image']:
