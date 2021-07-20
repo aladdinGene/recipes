@@ -31,6 +31,23 @@ ul {
 #logo h2{
     font-size: 50px;
     color: #ff8b23;
+    line-height: 60px;
+}
+@media(max-width: 550px) {
+    #logo h2{
+        font-size: 40px;
+    }
+}
+@media(max-width: 450px) {
+    #logo h2{
+        font-size: 30px;
+        margin-right: 80px;
+    }
+}
+@media(max-width: 370px) {
+    #logo h2{
+        line-height: 30px;
+    }
 }
 #logo h2>span{
 	font-size: 30px;
@@ -151,7 +168,7 @@ ul {
     color: #eee;
 }
 .footer p{
-    font-size: 50px;
+    font-size: 30px;
     color: #FFF;
     font-style: italic;
     font-weight: 900;

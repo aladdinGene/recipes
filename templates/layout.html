@@ -18,14 +18,14 @@
             <div class="sub_header">
                 <div class="container">
                     <div class="row align-items-center position-relative">
-                        <div class="col-md-4 col-lg-6">
+                        <div class="col-md-12 col-lg-6">
                             <div id="logo">
                                 <a href="/">
-                                    <h2>Recipes</span></h2>
+                                    <h2>A taste of tropical</span></h2>
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-8 col-lg-6 d-none d-lg-block">
+                        <div class="col-md-12 col-lg-6 d-none d-lg-block">
                             <div class="sub_header_social_icon float-end">
                                 {% if user.is_authenticated %}
                                     <a href="/logout" class="register_icon"><i class="fas fa-sign-out-alt"></i>Logout</a>
@@ -79,9 +79,6 @@
                                                 <a href="/my-recipes" class="nav-link {% if category == 'My Recipes' %} active {% endif %}">My Recipes</a>
                                             </li>
                                         {% endif %}
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">Contact Us</a>
-                                        </li>
                                         <li class="nav-item d-lg-none">
                                             {% if user.is_authenticated %}
                                                 <a href="/logout" class="nav-link">Logout</a>
@@ -116,7 +113,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <p>Recipes</p>
+                        <p>A taste of tropical</p>
                     </div>
                     <div class="col-lg-12">
                         <div class="footer-links">
@@ -125,7 +122,6 @@
                             <a href="/Lunch">Lunch</a>
                             <a href="/Dinner">Dinner</a>
                             <a href="/Beverages">Beverages</a>
-                            <a href="#">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -137,14 +133,14 @@
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"> <i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <span class="float-end">&copy;&nbsp;2021.7.10 Recipes</span>
+                        <span class="float-end">&copy;&nbsp;2021.7.20 A taste of tropical</span>
                     </div>
                 </div>
             </div>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
         <script src="{% static 'assets/js/tata.js' %}"></script>
         <script type="text/javascript" src="{% static 'assets/js/app.js' %}"></script>
         {% block script %}{% endblock %}
