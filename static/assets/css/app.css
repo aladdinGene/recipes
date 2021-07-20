@@ -29,9 +29,11 @@ ul {
     padding: 0;
 }
 #logo h2{
+    font-family: 'Tangerine', serif;
     font-size: 50px;
     color: #ff8b23;
     line-height: 60px;
+    font-weight: 800;
 }
 @media(max-width: 550px) {
     #logo h2{
@@ -41,6 +43,8 @@ ul {
 @media(max-width: 450px) {
     #logo h2{
         font-size: 30px;
+    }
+    .main-page #logo h2{
         margin-right: 80px;
     }
 }
