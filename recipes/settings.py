@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-# import django_heroku
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +24,7 @@ LOGIN_REDIRECT_URL = '/login/'
 SECRET_KEY = 'django-insecure-wa3#zuzq16s$l=(91zhq6$)k5a4&1a-jn%hk0)a=_8rk+tuq@g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,25 +88,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'recipes',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#         'CONN_MAX_AGE': 10,
-#         'OPTIONS': {
-#             'charset': 'utf8mb4',
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-#         },
-#         'TEST': {
-#             'NAME': 'recipe_test'
-#         }
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -160,5 +141,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
